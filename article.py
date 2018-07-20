@@ -1,10 +1,9 @@
 import re
 import json
-from connect_database import conn
 
 
 class Article:
-    def __init__(self, entry: dict):
+    def __init__(self, entry: dict, conn):
         self.title = entry['title_detail']['value']
         self.abstract = entry['summary_detail']['value']
         self.doi = entry.get('arxiv_doi')
@@ -13,6 +12,7 @@ class Article:
         self.start_date = entry['published']
         self.pub_year = self.start_date[0:4]
         self.publication = entry.get('arxiv_journal_ref')
+        self.conn = conn
 
     def is_saved(self):
         return self.find() is not None
@@ -37,19 +37,19 @@ class Article:
                 sql_elements.append('version')
                 items = items + (json.dumps([self.version]),)
             sql = sql_base + ' (' + ', '.join(sql_elements) + ') ' + 'VALUES' + ' (' + ', '.join(['%s'] * len(sql_elements)) + ')'
-            with conn.cursor() as cursor:
+            with self.conn.cursor() as cursor:
                 cursor.execute(
                     sql,
                     items
                 )
-                conn.commit()
+                self.conn.commit()
         else:
             version_list = self.get_version_list()
             if self.version not in version_list:
                 self.add_version()
 
     def find(self):
-        with conn.cursor() as cursor:
+        with self.conn.cursor() as cursor:
             sql = 'SELECT * FROM articles WHERE arXiv_id = %s'
             cursor.execute(sql, self.arXiv_id)
             result = cursor.fetchone()
@@ -65,7 +65,7 @@ class Article:
         version_list = self.get_version_list()
         version_list.append(self.version)
 
-        with conn.cursor() as cursor:
+        with self.conn.cursor() as cursor:
             sql = 'UPDATE articles SET version = %s WHERE arXiv_id = %s'
             cursor.execute(sql, (json.dumps(version_list), self.arXiv_id))
 
@@ -79,7 +79,7 @@ class Article:
         return arxiv_id, version
 
     @classmethod
-    def get_n_articles(cls):
+    def get_n_articles(cls, conn):
         with conn.cursor() as cursor:
             sql = 'SELECT COUNT(arXiv_id) FROM Articles'
             return cursor.execute(sql)
