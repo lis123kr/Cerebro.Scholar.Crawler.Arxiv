@@ -1,5 +1,6 @@
 import time
 import arxivpy
+from article import Article
 
 
 machine_learning_categories = ['cs.CV', 'cs.CL', 'cs.LG', 'cs.AI', 'cs.NE', 'stat.ML']
@@ -24,7 +25,8 @@ while article_len == articles_per_minute:
 
     # compute article_len
     article_len = len(articles)
-    article_list.append(articles)
+    for article in articles:
+        article_list.append(Article(article))
 
     # compute start_index
     start_index += STEP * 2
