@@ -1,6 +1,7 @@
 import time
 import arxivpy
 from article import Article
+from connect_database import conn
 
 
 machine_learning_categories = ['cs.CV', 'cs.CL', 'cs.LG', 'cs.AI', 'cs.NE', 'stat.ML']
@@ -16,20 +17,23 @@ while article_len == articles_per_minute:
     # query 100 results per iteration
     # wait 30 seconds per query
     articles = arxivpy.query(search_query=machine_learning_categories,
-                             start_index=start_index, max_index=articles_per_minute, results_per_iteration=STEP,
+                             start_index=start_index, max_index=start_index + articles_per_minute, results_per_iteration=STEP,
                              wait_time=30, sort_by='lastUpdatedDate', sort_order='ascending')
 
     # crawling log
     print('last: ' + articles[-1]['published'])
     print(str(start_index + STEP * 2) + ' articles crawled')
 
-    # compute article_len
-    article_len = len(articles)
+    # save articles
     for article in articles:
-        article_list.append(Article(article))
+        Article(article).save()
 
     # compute start_index
     start_index += STEP * 2
 
+    # compute article_len
+
     # sleep 1 minute
     time.sleep(60)
+
+conn.close()
