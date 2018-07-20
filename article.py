@@ -1,3 +1,4 @@
+import logging
 import re
 import json
 
@@ -22,7 +23,7 @@ class Article:
         if find is None:
             sql_base = 'INSERT INTO articles'
             sql_elements = ['title', 'abstract', 'doi', 'arXiv_id', 'authors', 'start_date', 'pub_year', 'publication']
-            print(self.arXiv_id)
+            logging.info(self.arXiv_id)
             items = (
                         self.title,
                         self.abstract,

@@ -1,5 +1,6 @@
 import time
 import arxivpy
+import logging
 from article import Article
 from connect_database import connect_database
 
@@ -23,8 +24,8 @@ def crawl_machine_learning():
                                  wait_time=30, sort_by='lastUpdatedDate', sort_order='ascending')
 
         # crawling log
-        print('last: ' + articles[-1]['published'])
-        print(str(start_index + STEP * 2) + ' articles crawled')
+        logging.info('last: ' + articles[-1]['published'])
+        logging.info(str(start_index + STEP * 2) + ' articles crawled')
 
         # save articles
         for article in articles:
