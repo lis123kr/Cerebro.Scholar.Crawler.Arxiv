@@ -1,1 +1,2 @@
 git+git://github.com/hrg921/arxivpy
+PyMySQL
