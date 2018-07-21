@@ -5,7 +5,7 @@ from article import Article
 from connect_database import connect_database
 
 
-def crawl_machine_learning(start_index: int):
+def crawl_machine_learning(start_index: int, sort_order: str):
     conn = connect_database()
     machine_learning_categories = ['cs.CV', 'cs.CL', 'cs.LG', 'cs.AI', 'cs.NE', 'stat.ML']
 
@@ -21,7 +21,7 @@ def crawl_machine_learning(start_index: int):
             articles = arxivpy.query(search_query=machine_learning_categories,
                                      start_index=start_index, max_index=start_index + articles_per_minute,
                                      results_per_iteration=STEP,
-                                     wait_time=30, sort_by='lastUpdatedDate', sort_order='ascending')
+                                     wait_time=30, sort_by='lastUpdatedDate', sort_order=sort_order)
 
             # crawling log
             logging.info('last: ' + articles[-1]['published'])
