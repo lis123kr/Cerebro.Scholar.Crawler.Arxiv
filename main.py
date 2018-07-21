@@ -31,5 +31,7 @@ for arg in sys.argv:
     except ValueError:
         pass
 
+logging.info('start index: ' + str(start_index))
+
 crawl_machine_learning(start_index)
 generate_json()
