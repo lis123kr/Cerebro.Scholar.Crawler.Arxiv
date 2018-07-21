@@ -82,5 +82,7 @@ class Article:
     @classmethod
     def get_n_articles(cls, conn):
         with conn.cursor() as cursor:
-            sql = 'SELECT COUNT(arXiv_id) FROM Articles'
-            return cursor.execute(sql)
+            sql = 'SELECT count(*) from articles;'
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            return result['count(*)']
