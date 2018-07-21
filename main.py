@@ -24,17 +24,22 @@ start_index = 0
 sort_order = 'ascending'
 
 for arg in sys.argv:
+    start_index_search = re.compile('start_index=([0-9a-zA-Z]+)').search(arg)
     try:
-        if re.compile('start_index=[0-9]+').match(arg):
-            start_index = int(arg[12:])
+        if start_index_search is not None:
+            try:
+                start_index = int(start_index_search.group(1))
+            except ValueError:
+                if start_index_search.group(1) == 'auto':
+                    start_index = -1
+                else:
+                    pass
         if re.compile('sort_order=desc').match(arg):
             sort_order = 'descending'
     except IndexError:
         pass
     except ValueError:
         pass
-
-logging.info('start index: ' + str(start_index))
 
 crawl_machine_learning(start_index=start_index, sort_order=sort_order)
 generate_json()

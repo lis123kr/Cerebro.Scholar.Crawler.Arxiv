@@ -23,7 +23,6 @@ class Article:
         if find is None:
             sql_base = 'INSERT INTO articles'
             sql_elements = ['title', 'abstract', 'doi', 'arXiv_id', 'authors', 'start_date', 'pub_year', 'publication']
-            logging.info(self.arXiv_id)
             items = (
                         self.title,
                         self.abstract,
@@ -44,6 +43,7 @@ class Article:
                     items
                 )
                 self.conn.commit()
+                logging.info('arxiv:' + self.arXiv_id + 'article is crawled')
         else:
             version_list = self.get_version_list()
             if self.version not in version_list:

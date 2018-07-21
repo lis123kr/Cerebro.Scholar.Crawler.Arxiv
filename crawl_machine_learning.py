@@ -5,14 +5,23 @@ from article import Article
 from connect_database import connect_database
 
 
+# start_index = -1 : auto option
 def crawl_machine_learning(start_index: int, sort_order: str):
     conn = connect_database()
+
     machine_learning_categories = ['cs.CV', 'cs.CL', 'cs.LG', 'cs.AI', 'cs.NE', 'stat.ML']
 
     STEP = 100
     articles_per_minute = STEP * 2
 
     article_len = articles_per_minute
+
+    if start_index == -1:
+        start_index = Article.get_n_articles(conn) - STEP
+
+    logging.info('crawling start')
+    logging.info('start index : ' + str(start_index))
+    logging.info('sort_order : ' + sort_order)
 
     while article_len == articles_per_minute:
         # query 100 results per iteration
