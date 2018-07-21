@@ -43,7 +43,7 @@ class Article:
                     items
                 )
                 self.conn.commit()
-                logging.info('arxiv:' + self.arXiv_id + 'article is crawled')
+                logging.info('arxiv_id: ' + self.arXiv_id + ' article is crawled')
         else:
             version_list = self.get_version_list()
             if self.version not in version_list:
