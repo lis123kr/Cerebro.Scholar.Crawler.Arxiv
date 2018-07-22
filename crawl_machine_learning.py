@@ -5,6 +5,9 @@ from article import Article
 from connect_database import connect_database
 
 
+MINUTE = 60
+
+
 # start_index = -1 : auto option
 def crawl_machine_learning(start_index: int, sort_order: str):
     conn = connect_database()
@@ -46,8 +49,8 @@ def crawl_machine_learning(start_index: int, sort_order: str):
             # compute article_len
             article_len = len(articles)
 
-            # sleep 1 minute
-            time.sleep(60)
+            # sleep 5 minute
+            time.sleep(MINUTE * 5)
         except Exception as e:
             logging.error(e)
             time.sleep(60 * 30)
