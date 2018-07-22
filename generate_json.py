@@ -11,5 +11,5 @@ def generate_json():
         result = cursor.fetchall()
     with open('data.json', 'w') as outfile:
             json.dump(result, outfile)
-    logging.info(str(Article.get_n_articles(conn) + 'articles crawled'))
+    logging.info(str(Article.get_n_articles(conn)) + 'articles crawled')
     conn.close()
