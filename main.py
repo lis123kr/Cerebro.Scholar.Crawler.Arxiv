@@ -3,7 +3,7 @@ import optparse
 import sys
 import re
 from crawl_machine_learning import crawl_machine_learning
-from generate_json import generate_json
+# from generate_json import generate_json
 
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'error': logging.ERROR,
@@ -21,6 +21,10 @@ logging.basicConfig(level=logging_level, filename=options.logging_file,
                     datefmt='%Y-%m-%d %H:%M:%S')
 
 start_index = 0
+f = open("start_index.txt", "r")
+start_index = int(f.readline())
+f.close()
+print("start_index = {}".format(start_index))
 sort_order = 'ascending'
 
 for arg in sys.argv:
@@ -41,5 +45,10 @@ for arg in sys.argv:
     except ValueError:
         pass
 
-crawl_machine_learning(start_index=start_index, sort_order=sort_order)
-generate_json()
+start_index, i, u = crawl_machine_learning(start_index=start_index, sort_order=sort_order)
+print("insertd : {}, updated : {}".format(i, u))
+
+f = open("start_index.txt", "w")
+f.write(str(start_index))
+f.close()
+# generate_json()

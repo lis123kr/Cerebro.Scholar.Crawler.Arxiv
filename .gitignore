@@ -11,7 +11,9 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
+aws_config.json
+feedparser.py
+six.py
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids
@@ -185,5 +187,12 @@ venv.bak/
 ### Python Patch ###
 .venv/
 
-
+six-1.11.0.dist-info/
+python_dateutil-2.7.3.dist-info/
+feedparser-5.2.1.dist-info/
+dateutil/
+arxivpy-0.1.dev0.dist-info/
+arxivpy/
+__pycache__/
+start_index.txt
 # End of https://www.gitignore.io/api/python,pycharm+all
